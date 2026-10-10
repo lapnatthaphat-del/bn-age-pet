@@ -1,7 +1,14 @@
-# bn-age-pet
+# PetAge — เทียบวัยน้องกับเรา
 
-Starter project for `bn-age-pet`.
+เว็บ static ภาษาไทยสำหรับคำนวณอายุจริงของสุนัขและแมว และแสดงอายุเทียบเท่าคนแบบอัปเดตทันทีจากวันเกิด
 
-## Getting started
+## พัฒนาและทดสอบ
 
-Add the project's source files and setup instructions here.
+```bash
+npm test
+npm run serve
+```
+
+จากนั้นเปิด `http://localhost:4173`
+
+ข้อมูลทั้งหมดคำนวณในเบราว์เซอร์และเก็บเฉพาะใน `localStorage` ของอุปกรณ์ผู้ใช้

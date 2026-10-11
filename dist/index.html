@@ -43,7 +43,9 @@
           <div class="field"><label for="birth-date">วันเกิดของน้อง</label><input id="birth-date" name="birthDate" type="date" aria-describedby="birth-help birth-error"><small id="birth-help">ใช้วันที่โดยประมาณได้ หากจำวันเกิดที่แน่นอนไม่ได้</small><p class="error" id="birth-error" role="alert"></p></div>
           <div class="field dog-size-field" id="dog-size-field" hidden><label for="dog-size">ขนาดเมื่อโตเต็มวัย</label><select id="dog-size" name="dogSize"><option value="small">เล็ก — ไม่เกิน 9 กก.</option><option value="medium" selected>กลาง — 10–23 กก.</option><option value="large">ใหญ่ — 24–41 กก.</option><option value="giant">ใหญ่มาก — มากกว่า 41 กก.</option></select><small>ขนาดมีผลต่ออัตราการสูงวัย โดยเฉพาะเมื่ออายุมากขึ้น</small></div>
           <div class="field profile-field" id="profile-field" hidden><label for="pet-profile">ชนิดของสัตว์เลี้ยง</label><select id="pet-profile" name="petProfile"></select><small id="lifespan-hint"></small></div>
+          <button class="save-pet-button" type="button" id="save-pet-button" disabled>+ เพิ่มน้องเป็นการ์ด</button>
           <button class="reset-button" type="button" id="reset-button">เริ่มคำนวณใหม่</button>
+          <p class="save-status" id="save-status" aria-live="polite"></p>
           <p class="privacy"><span aria-hidden="true">⌁</span> ข้อมูลอยู่ในอุปกรณ์นี้เท่านั้น</p>
         </form>
         <section class="card result-card is-empty" id="result-card" aria-live="polite" aria-atomic="true">
@@ -59,6 +61,13 @@
           </div>
         </section>
       </div>
+    </section>
+    <section class="my-pets" id="my-pets" hidden>
+      <div class="pets-heading">
+        <div><p class="eyebrow">ครอบครัวของเรา</p><h2>สัตว์เลี้ยงของฉัน</h2></div>
+        <p><strong id="pet-count">0</strong> ตัวที่บันทึกไว้ในอุปกรณ์นี้</p>
+      </div>
+      <div class="pet-card-grid" id="pet-card-grid"></div>
     </section>
     <section class="explain" id="how">
       <div class="section-title"><p class="eyebrow">เข้าใจผลลัพธ์</p><h2>ไม่ใช่แค่เอาอายุไปคูณ 7</h2><p>สัตว์เลี้ยงเติบโตเร็วมากในช่วงปีแรก แล้วอัตราการสูงวัยจะเปลี่ยนไปตามชนิดและขนาด</p></div>

@@ -43,9 +43,51 @@ body {
 .species-grid-expanded .species-option:nth-child(n+3) { grid-column: span 2; }
 .species-grid-expanded .species-content { min-height: 94px; padding: 8px 4px; }
 .profile-field[hidden] { display: none; }
+.save-pet-button {
+  width: 100%;
+  min-height: 50px;
+  border: 0;
+  border-radius: 14px;
+  background: #267354;
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 10px 22px rgba(38, 115, 84, .18);
+}
+.save-pet-button:hover { background: #174f39; }
+.save-pet-button:disabled { opacity: .42; cursor: not-allowed; box-shadow: none; }
+.save-status { min-height: 1.4em; margin: 4px 0 0; color: #267354; font-size: .76rem; font-weight: 600; }
+.my-pets { padding: 82px 0 100px; border-top: 1px solid var(--line); }
+.my-pets[hidden] { display: none; }
+.pets-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 30px; }
+.pets-heading h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.25rem); line-height: 1.15; letter-spacing: -.035em; }
+.pets-heading > p { color: var(--muted); }
+.pets-heading > p strong { color: #267354; font-size: 1.35rem; }
+.pet-card-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.saved-pet-card { position: relative; overflow: hidden; min-height: 250px; padding: 24px; border: 1px solid var(--line); border-radius: 24px; background: var(--surface); box-shadow: var(--shadow); }
+.saved-pet-card::after { content: ""; position: absolute; width: 150px; height: 150px; right: -70px; top: -65px; border-radius: 50%; background: #e4f0e1; }
+.saved-pet-top { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.saved-pet-icon { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 18px; background: #e7f0df; font-size: 1.9rem; }
+.saved-pet-type { color: var(--muted); font-size: .75rem; font-weight: 600; }
+.saved-pet-card h3 { margin: 22px 0 0; font-size: 1.5rem; }
+.saved-pet-age { margin: 2px 0 18px; color: var(--muted); font-size: .88rem; }
+.saved-pet-human { display: flex; align-items: baseline; gap: 7px; padding-top: 16px; border-top: 1px solid var(--line); }
+.saved-pet-human strong { color: #267354; font-size: 1.8rem; }
+.saved-pet-human span { color: var(--muted); font-size: .78rem; }
+.saved-pet-actions { display: flex; gap: 8px; margin-top: 20px; }
+.saved-pet-actions button { min-height: 40px; padding: 0 13px; border: 1px solid var(--line); border-radius: 11px; background: #fff; color: var(--ink); font: inherit; font-size: .78rem; font-weight: 700; cursor: pointer; }
+.saved-pet-actions .edit-pet:hover { border-color: #267354; color: #267354; }
+.saved-pet-actions .delete-pet { margin-left: auto; color: #9c443d; }
+.saved-pet-stage { padding: 5px 10px; border-radius: 999px; background: #e4f0e1; color: #267354; font-size: .69rem; font-weight: 700; }
 
 @media (max-width: 480px) {
   .species-grid-expanded { grid-template-columns: 1fr 1fr; }
   .species-grid-expanded .species-option:nth-child(n) { grid-column: span 1; }
   .species-grid-expanded .species-option:last-child { grid-column: 1 / -1; }
+  .pets-heading { display: block; }
+  .pets-heading > p { margin-bottom: 0; }
 }
+
+@media (max-width: 900px) { .pet-card-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .pet-card-grid { grid-template-columns: 1fr; } .my-pets { padding: 64px 0 76px; } }

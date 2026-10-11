@@ -12,27 +12,40 @@ const error = document.querySelector("#birth-error");
 const emptyResult = document.querySelector("#empty-result");
 const resultContent = document.querySelector("#result-content");
 const resultCard = document.querySelector("#result-card");
+const saveButton = document.querySelector("#save-pet-button");
+const saveStatus = document.querySelector("#save-status");
+const myPetsSection = document.querySelector("#my-pets");
+const petCardGrid = document.querySelector("#pet-card-grid");
 const storageKey = "petAgeProfileV2";
+const petsStorageKey = "petAgePetsV1";
 const profileGroups = ["small", "bird", "exotic"];
+let pets = loadPets();
+let editingId = null;
 
 birthInput.max = localISODate(new Date());
 restore();
 syncConditionalFields();
 update();
+renderPets();
 
 form.addEventListener("input", update);
 form.addEventListener("change", update);
+saveButton.addEventListener("click", saveCurrentPet);
+petCardGrid.addEventListener("click", handlePetCardAction);
 document.querySelector("#reset-button").addEventListener("click", () => {
   form.reset();
   localStorage.removeItem(storageKey);
   error.textContent = "";
   birthInput.classList.remove("invalid");
+  editingId = null;
+  saveButton.textContent = "+ เพิ่มน้องเป็นการ์ด";
+  saveStatus.textContent = "";
   syncConditionalFields();
   update();
   form.querySelector('input[name="species"]').focus();
 });
-document.addEventListener("visibilitychange", () => { if (!document.hidden) update(); });
-setInterval(update, 60_000);
+document.addEventListener("visibilitychange", () => { if (!document.hidden) { update(); renderPets(); } });
+setInterval(() => { update(); renderPets(); }, 60_000);
 
 function update() {
   syncConditionalFields();
@@ -48,6 +61,7 @@ function update() {
     error.textContent = "วันเกิดต้องไม่เกินวันนี้ กรุณาตรวจสอบวันที่อีกครั้ง";
     birthInput.classList.add("invalid");
     showEmpty();
+    saveButton.disabled = true;
     return;
   }
   error.textContent = "";
@@ -55,6 +69,7 @@ function update() {
 
   if (!species || !birthDate || (profileGroups.includes(species) && !PET_PROFILES[petProfile])) {
     showEmpty();
+    saveButton.disabled = true;
     persist({ species, birthDate, dogSize, petProfile, petName });
     return;
   }
@@ -65,6 +80,8 @@ function update() {
   const stage = lifeStage(species, years, calculationKey);
   const ageText = formatAge(actual);
   const isLifespanIndex = profileGroups.includes(species);
+  saveButton.disabled = !petName;
+  saveButton.title = petName ? "" : "ใส่ชื่อน้องก่อนบันทึกเป็นการ์ด";
 
   emptyResult.hidden = true;
   resultContent.hidden = false;
@@ -113,6 +130,101 @@ function showEmpty() {
   resultContent.hidden = true;
   resultCard.classList.add("is-empty");
   resultCard.removeAttribute("aria-label");
+}
+
+function saveCurrentPet() {
+  const data = new FormData(form);
+  const species = data.get("species");
+  const petName = String(data.get("petName") || "").trim();
+  const birthDate = data.get("birthDate");
+  if (!species || !petName || !birthDate || yearsBetween(birthDate) === null) return;
+  const entry = {
+    id: editingId || `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
+    species,
+    petName,
+    birthDate,
+    dogSize: data.get("dogSize") || "medium",
+    petProfile: data.get("petProfile") || "rabbit"
+  };
+  const index = pets.findIndex((pet) => pet.id === entry.id);
+  if (index >= 0) pets[index] = entry;
+  else pets.unshift(entry);
+  localStorage.setItem(petsStorageKey, JSON.stringify(pets));
+  saveStatus.textContent = index >= 0 ? `อัปเดตการ์ดของ${petName}แล้ว` : `เพิ่ม${petName}เป็นการ์ดแล้ว`;
+  editingId = null;
+  saveButton.textContent = "+ เพิ่มน้องเป็นการ์ด";
+  renderPets();
+  myPetsSection.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
+function renderPets() {
+  myPetsSection.hidden = pets.length === 0;
+  document.querySelector("#pet-count").textContent = pets.length.toLocaleString("th-TH");
+  petCardGrid.replaceChildren(...pets.map(createPetCard));
+}
+
+function createPetCard(pet) {
+  const years = yearsBetween(pet.birthDate);
+  const calculationKey = profileGroups.includes(pet.species) ? pet.petProfile : pet.dogSize;
+  const humanYears = Math.round(humanEquivalent(pet.species, years, calculationKey));
+  const stage = lifeStage(pet.species, years, calculationKey);
+  const type = petType(pet);
+  const card = document.createElement("article");
+  card.className = "saved-pet-card";
+  card.dataset.petId = pet.id;
+  card.innerHTML = `
+    <div class="saved-pet-top">
+      <span class="saved-pet-icon" aria-hidden="true">${type.emoji}</span>
+      <span class="saved-pet-stage">${stage.label}</span>
+    </div>
+    <h3>${escapeHTML(pet.petName)}</h3>
+    <p class="saved-pet-age"><span class="saved-pet-type">${type.label}</span> · อายุจริง ${formatAge(calendarAge(pet.birthDate))}</p>
+    <div class="saved-pet-human"><strong>${humanYears.toLocaleString("th-TH")} ปี</strong><span>${profileGroups.includes(pet.species) ? "ช่วงชีวิตเทียบคน" : "อายุเทียบคนโดยประมาณ"}</span></div>
+    <div class="saved-pet-actions"><button class="edit-pet" type="button">ดูและแก้ไข</button><button class="delete-pet" type="button" aria-label="ลบการ์ดของ${escapeHTML(pet.petName)}">ลบ</button></div>`;
+  return card;
+}
+
+function handlePetCardAction(event) {
+  const button = event.target.closest("button");
+  const card = event.target.closest(".saved-pet-card");
+  if (!button || !card) return;
+  const pet = pets.find((entry) => entry.id === card.dataset.petId);
+  if (!pet) return;
+  if (button.classList.contains("delete-pet")) {
+    pets = pets.filter((entry) => entry.id !== pet.id);
+    localStorage.setItem(petsStorageKey, JSON.stringify(pets));
+    renderPets();
+    return;
+  }
+  editingId = pet.id;
+  form.elements.species.value = pet.species;
+  nameInput.value = pet.petName;
+  birthInput.value = pet.birthDate;
+  sizeSelect.value = pet.dogSize || "medium";
+  syncConditionalFields();
+  if (profileGroups.includes(pet.species)) profileSelect.value = pet.petProfile;
+  syncConditionalFields();
+  update();
+  saveButton.textContent = "บันทึกการแก้ไขการ์ด";
+  saveStatus.textContent = `กำลังแก้ไขการ์ดของ${pet.petName}`;
+  form.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+}
+
+function petType(pet) {
+  if (pet.species === "dog") return { label: "สุนัข", emoji: "🐶" };
+  if (pet.species === "cat") return { label: "แมว", emoji: "🐱" };
+  return PET_PROFILES[pet.petProfile] || { label: "สัตว์เลี้ยง", emoji: "🐾" };
+}
+
+function loadPets() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(petsStorageKey));
+    return Array.isArray(saved) ? saved : [];
+  } catch { return []; }
+}
+
+function escapeHTML(value) {
+  return value.replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" })[character]);
 }
 
 function formatAge(age) {

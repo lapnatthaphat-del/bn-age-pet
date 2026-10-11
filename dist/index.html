@@ -3,9 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="คำนวณอายุสุนัขและแมวเทียบกับอายุคนแบบเรียลไทม์จากวันเกิด">
-  <meta name="theme-color" content="#fff9f1">
+  <meta name="description" content="คำนวณอายุสัตว์เลี้ยงเทียบกับอายุคนแบบเรียลไทม์ บันทึกรูปและการ์ดของน้องไว้ในอุปกรณ์">
+  <meta name="theme-color" content="#267354">
   <title>PetAge — เทียบวัยน้องกับเรา</title>
+  <link rel="icon" type="image/png" href="assets/petage-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="PetAge หน้าแรก"><span class="brand-mark" aria-hidden="true">●</span><span>PetAge</span></a>
+    <a class="brand" href="#top" aria-label="PetAge หน้าแรก"><img class="brand-logo" src="assets/petage-logo.png" alt=""><span>PetAge</span></a>
     <nav aria-label="เมนูหลัก"><a href="#how">วิธีคำนวณ</a><a href="#sources">แหล่งข้อมูล</a></nav>
   </header>
   <main id="top">
@@ -40,6 +41,22 @@
             </div>
           </fieldset>
           <div class="field"><label for="pet-name">ชื่อน้อง <span>(ไม่บังคับ)</span></label><input id="pet-name" name="petName" type="text" maxlength="30" placeholder="เช่น โมจิ" autocomplete="off"></div>
+          <div class="field photo-field">
+            <label for="pet-photo">รูปของน้อง <span>(ไม่บังคับ)</span></label>
+            <div class="photo-picker">
+              <div class="photo-preview" id="photo-preview" aria-live="polite">
+                <img id="photo-preview-image" alt="รูปตัวอย่างของสัตว์เลี้ยง" hidden>
+                <span id="photo-placeholder" aria-hidden="true">📷</span>
+              </div>
+              <div class="photo-controls">
+                <label class="photo-upload-button" for="pet-photo">เลือกรูปจากเครื่อง</label>
+                <input class="visually-hidden" id="pet-photo" name="petPhoto" type="file" accept="image/jpeg,image/png,image/webp">
+                <button class="remove-photo-button" id="remove-photo-button" type="button" hidden>ลบรูป</button>
+                <small>รองรับ JPG, PNG และ WebP ไม่เกิน 10 MB ระบบจะย่อรูปให้อัตโนมัติ</small>
+                <p class="error" id="photo-error" role="alert"></p>
+              </div>
+            </div>
+          </div>
           <div class="field"><label for="birth-date">วันเกิดของน้อง</label><input id="birth-date" name="birthDate" type="date" aria-describedby="birth-help birth-error"><small id="birth-help">ใช้วันที่โดยประมาณได้ หากจำวันเกิดที่แน่นอนไม่ได้</small><p class="error" id="birth-error" role="alert"></p></div>
           <div class="field dog-size-field" id="dog-size-field" hidden><label for="dog-size">ขนาดเมื่อโตเต็มวัย</label><select id="dog-size" name="dogSize"><option value="small">เล็ก — ไม่เกิน 9 กก.</option><option value="medium" selected>กลาง — 10–23 กก.</option><option value="large">ใหญ่ — 24–41 กก.</option><option value="giant">ใหญ่มาก — มากกว่า 41 กก.</option></select><small>ขนาดมีผลต่ออัตราการสูงวัย โดยเฉพาะเมื่ออายุมากขึ้น</small></div>
           <div class="field profile-field" id="profile-field" hidden><label for="pet-profile">ชนิดของสัตว์เลี้ยง</label><select id="pet-profile" name="petProfile"></select><small id="lifespan-hint"></small></div>
@@ -89,7 +106,7 @@
       <p class="review-date">ตรวจสอบข้อมูลล่าสุดเมื่อ 11 ตุลาคม 2026</p>
     </section>
   </main>
-  <footer><a class="brand" href="#top"><span class="brand-mark">●</span> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
+  <footer><a class="brand" href="#top"><img class="brand-logo" src="assets/petage-logo.png" alt=""> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
   <script type="module" src="app.mjs"></script>
 </body>
 </html>

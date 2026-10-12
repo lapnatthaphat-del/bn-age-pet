@@ -5,6 +5,13 @@ const emptyPets = document.querySelector("#empty-pets");
 const petCount = document.querySelector("#pet-count");
 let pets = loadPets();
 
+const LIFE_STAGE_INFO = [
+  { key: "baby", label: "วัยเด็ก", note: "กำลังเติบโต ควรใส่ใจอาหารที่เหมาะกับชนิดและการตรวจสุขภาพช่วงเริ่มต้น" },
+  { key: "young", label: "วัยหนุ่มสาว", note: "พลังงานสูง เหมาะกับการฝึกและกิจกรรมที่ช่วยกระตุ้นทั้งร่างกายและจิตใจ" },
+  { key: "adult", label: "วัยผู้ใหญ่", note: "ดูแลน้ำหนัก สุขภาพช่องปาก และตรวจสุขภาพอย่างสม่ำเสมอ" },
+  { key: "senior", label: "วัยสูงอายุ", note: "ติดตามการกินและการเคลื่อนไหว พร้อมปรึกษาสัตวแพทย์เมื่อมีความเปลี่ยนแปลง" }
+];
+
 renderPets();
 petCardGrid.addEventListener("click", handlePetCardAction);
 document.addEventListener("visibilitychange", () => {
@@ -25,6 +32,7 @@ function renderPets() {
 function createPetCard(pet) {
   const { humanYears, stage, actualAge, isLifespanIndex } = petMetrics(pet);
   const type = petType(pet);
+  const currentStage = LIFE_STAGE_INFO.find((item) => item.key === stage.key) || LIFE_STAGE_INFO[0];
   const card = document.createElement("article");
   card.className = "saved-pet-card";
   card.dataset.petId = pet.id;
@@ -36,6 +44,16 @@ function createPetCard(pet) {
     <h3>${escapeHTML(pet.petName)}</h3>
     <p class="saved-pet-age"><span class="saved-pet-type">${type.label}</span> · อายุจริง ${formatAge(actualAge)}</p>
     <div class="saved-pet-human"><strong>${humanYears.toLocaleString("th-TH")} ปี</strong><span>${isLifespanIndex ? "ช่วงชีวิตเทียบคน" : "อายุเทียบคนโดยประมาณ"}</span></div>
+    <div class="saved-pet-stage-info">
+      <div class="stage-steps" aria-label="ตอนนี้อยู่ใน${stage.label}">
+        ${LIFE_STAGE_INFO.map((item) => `<span class="${item.key === stage.key ? "is-current" : ""}"><i aria-hidden="true"></i><small>${item.label}</small></span>`).join("")}
+      </div>
+      <p><strong>${currentStage.label}</strong>${currentStage.note}</p>
+      <details>
+        <summary>ข้อมูลช่วงวัยทั้งหมด</summary>
+        <ul>${LIFE_STAGE_INFO.map((item) => `<li><strong>${item.label}</strong> — ${item.note}</li>`).join("")}</ul>
+      </details>
+    </div>
     <div class="saved-pet-actions"><a class="edit-pet" href="add.html?edit=${encodeURIComponent(pet.id)}">ดูและแก้ไข</a><button class="delete-pet" type="button" aria-label="ลบการ์ดของ${escapeHTML(pet.petName)}">ลบ</button></div>`;
   const media = card.querySelector(".saved-pet-media");
   if (isStoredPhoto(pet.photo)) {

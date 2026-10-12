@@ -10,13 +10,14 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=5">
-  <link rel="stylesheet" href="nature.css?v=5">
+  <link rel="stylesheet" href="styles.css?v=6">
+  <link rel="stylesheet" href="nature.css?v=6">
 </head>
 <body>
   <header class="site-header">
     <a class="brand" href="index.html" aria-label="PetAge หน้าแรก"><img class="brand-logo" src="assets/petage-logo.png" alt=""><span>PetAge</span></a>
-    <nav aria-label="เมนูหลัก"><a href="index.html">สัตว์เลี้ยง</a><a href="add.html" aria-current="page">เพิ่มสัตว์</a><a href="how.html">วิธีคำนวณ</a><a href="sources.html">แหล่งอ้างอิง</a></nav>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav"><span class="nav-toggle-icon" aria-hidden="true"></span><span>เมนู</span></button>
+    <nav id="site-nav" aria-label="เมนูหลัก"><a href="index.html">สัตว์เลี้ยง</a><a href="add.html" aria-current="page">เพิ่มสัตว์</a><a href="how.html">วิธีคำนวณ</a><a href="sources.html">แหล่งอ้างอิง</a></nav>
   </header>
   <main id="top" class="page-main">
     <section class="page-hero add-hero">
@@ -61,6 +62,7 @@
     </section>
   </main>
   <footer><a class="brand" href="index.html"><img class="brand-logo" src="assets/petage-logo.png" alt=""> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
+  <script type="module" src="nav.mjs?v=1"></script>
   <script type="module" src="app.mjs?v=5"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
-import { yearsBetween, humanEquivalent, calendarAge, lifeStage, PET_PROFILES } from "./calculator.mjs";
-import { PROFILE_GROUPS, loadPets, savePets, isStoredPhoto, formatAge } from "./pet-data.mjs";
+import { yearsBetween, PET_PROFILES } from "./calculator.mjs";
+import { PROFILE_GROUPS, loadPets, savePets, isStoredPhoto } from "./pet-data.mjs";
 
 const form = document.querySelector("#pet-form");
 const birthInput = document.querySelector("#birth-date");
@@ -10,9 +10,6 @@ const profileField = document.querySelector("#profile-field");
 const profileSelect = document.querySelector("#pet-profile");
 const lifespanHint = document.querySelector("#lifespan-hint");
 const error = document.querySelector("#birth-error");
-const emptyResult = document.querySelector("#empty-result");
-const resultContent = document.querySelector("#result-content");
-const resultCard = document.querySelector("#result-card");
 const saveButton = document.querySelector("#save-pet-button");
 const saveStatus = document.querySelector("#save-status");
 const viewPetsLink = document.querySelector("#view-pets-link");
@@ -49,12 +46,10 @@ function update() {
   const dogSize = data.get("dogSize") || "medium";
   const petProfile = data.get("petProfile") || "rabbit";
   const petName = String(data.get("petName") || "").trim();
-  const calculationKey = PROFILE_GROUPS.includes(species) ? petProfile : dogSize;
 
   if (birthDate && yearsBetween(birthDate) === null) {
     error.textContent = "วันเกิดต้องไม่เกินวันนี้ กรุณาตรวจสอบวันที่อีกครั้ง";
     birthInput.classList.add("invalid");
-    showEmpty();
     saveButton.disabled = true;
     return;
   }
@@ -62,41 +57,13 @@ function update() {
   birthInput.classList.remove("invalid");
 
   if (!species || !birthDate || (PROFILE_GROUPS.includes(species) && !PET_PROFILES[petProfile])) {
-    showEmpty();
     saveButton.disabled = true;
     persistDraft({ species, birthDate, dogSize, petProfile, petName });
     return;
   }
 
-  const years = yearsBetween(birthDate);
-  const humanYears = Math.round(humanEquivalent(species, years, calculationKey));
-  const actual = calendarAge(birthDate);
-  const stage = lifeStage(species, years, calculationKey);
-  const ageText = formatAge(actual);
-  const isLifespanIndex = PROFILE_GROUPS.includes(species);
   saveButton.disabled = !petName;
   saveButton.title = petName ? "" : "ใส่ชื่อน้องก่อนบันทึกเป็นการ์ด";
-
-  emptyResult.hidden = true;
-  resultContent.hidden = false;
-  resultCard.classList.remove("is-empty");
-  document.querySelector("#result-kicker").textContent = petName
-    ? `วันนี้${petName}${isLifespanIndex ? "อยู่ในช่วงชีวิตเทียบคนประมาณ" : "อายุเทียบเท่าคนประมาณ"}`
-    : `วันนี้น้อง${isLifespanIndex ? "อยู่ในช่วงชีวิตเทียบคนประมาณ" : "อายุเทียบเท่าคนประมาณ"}`;
-  document.querySelector("#human-years").textContent = humanYears.toLocaleString("th-TH");
-  document.querySelector("#actual-age").textContent = ageText;
-  document.querySelector("#stage-badge").textContent = stage.label;
-  document.querySelector("#timeline-progress").style.width = `${[12, 38, 67, 100][stage.index]}%`;
-  document.querySelector("#result-note").textContent = isLifespanIndex
-    ? `เป็นดัชนีจากสัดส่วนอายุขัยทั่วไปของ${PET_PROFILES[petProfile].label} ไม่ใช่สูตรอายุชีวภาพหรือการทำนายอายุขัยเฉพาะตัว`
-    : "ค่าที่แสดงเป็นการเทียบโดยประมาณ ไม่ใช่การประเมินสุขภาพหรืออายุขัยเฉพาะตัว";
-  const now = new Date();
-  const time = document.querySelector("#updated-at");
-  time.dateTime = now.toISOString();
-  time.textContent = new Intl.DateTimeFormat("th-TH", { dateStyle: "medium", timeStyle: "short" }).format(now);
-  resultCard.setAttribute("aria-label", `ผลการคำนวณ: ${petName || "สัตว์เลี้ยง"}อายุจริง ${ageText} เทียบช่วงชีวิตคนประมาณ ${humanYears} ปี อยู่ในช่วง${stage.label}`);
-  resultCard.classList.remove("is-updating");
-  requestAnimationFrame(() => resultCard.classList.add("is-updating"));
   persistDraft({ species, birthDate, dogSize, petProfile, petName });
 }
 
@@ -116,13 +83,6 @@ function syncConditionalFields() {
   if (choices.some(([value]) => value === previous)) profileSelect.value = previous;
   const profile = PET_PROFILES[profileSelect.value];
   lifespanHint.textContent = profile ? `อายุขัยทั่วไปประมาณ ${profile.range} ใช้เป็นฐานของดัชนีช่วงชีวิต` : "";
-}
-
-function showEmpty() {
-  emptyResult.hidden = false;
-  resultContent.hidden = true;
-  resultCard.classList.add("is-empty");
-  resultCard.removeAttribute("aria-label");
 }
 
 function saveCurrentPet() {

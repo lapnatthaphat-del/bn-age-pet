@@ -1,5 +1,5 @@
-import { yearsBetween, PET_PROFILES } from "./calculator.mjs";
-import { PROFILE_GROUPS, loadPets, savePets, isStoredPhoto } from "./pet-data.mjs";
+import { yearsBetween, PET_PROFILES } from "./calculator.mjs?v=2";
+import { PROFILE_GROUPS, loadPets, savePets, isStoredPhoto } from "./pet-data.mjs?v=2";
 
 const form = document.querySelector("#pet-form");
 const birthInput = document.querySelector("#birth-date");

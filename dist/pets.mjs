@@ -1,4 +1,4 @@
-import { loadPets, savePets, petMetrics, petType, isStoredPhoto, escapeHTML, formatAge } from "./pet-data.mjs";
+import { loadPets, savePets, petMetrics, petType, isStoredPhoto, escapeHTML, formatAge } from "./pet-data.mjs?v=2";
 
 const petCardGrid = document.querySelector("#pet-card-grid");
 const emptyPets = document.querySelector("#empty-pets");
@@ -30,7 +30,7 @@ function renderPets() {
 }
 
 function createPetCard(pet) {
-  const { humanYears, stage, actualAge, isLifespanIndex } = petMetrics(pet);
+  const { humanYears, lifeProgress, stage, actualAge, isLifespanIndex } = petMetrics(pet);
   const type = petType(pet);
   const currentStage = LIFE_STAGE_INFO.find((item) => item.key === stage.key) || LIFE_STAGE_INFO[0];
   const card = document.createElement("article");
@@ -45,9 +45,10 @@ function createPetCard(pet) {
     <p class="saved-pet-age"><span class="saved-pet-type">${type.label}</span> · อายุจริง ${formatAge(actualAge)}</p>
     <div class="saved-pet-human"><strong>${humanYears.toLocaleString("th-TH")} ปี</strong><span>${isLifespanIndex ? "ช่วงชีวิตเทียบคน" : "อายุเทียบคนโดยประมาณ"}</span></div>
     <div class="saved-pet-stage-info">
-      <div class="stage-steps" aria-label="ตอนนี้อยู่ใน${stage.label}">
-        ${LIFE_STAGE_INFO.map((item) => `<span class="${item.key === stage.key ? "is-current" : ""}"><i aria-hidden="true"></i><small>${item.label}</small></span>`).join("")}
+      <div class="life-progress" role="progressbar" aria-label="ความคืบหน้าของช่วงชีวิต ตอนนี้อยู่ใน${stage.label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${Math.round(lifeProgress)}" style="--life-progress: ${lifeProgress.toFixed(2)}%">
+        <span class="life-progress-fill"></span>
       </div>
+      <div class="stage-labels" aria-hidden="true">${LIFE_STAGE_INFO.map((item) => `<span class="${item.key === stage.key ? "is-current" : ""}">${item.label}</span>`).join("")}</div>
       <p><strong>${currentStage.label}</strong>${currentStage.note}</p>
       <details>
         <summary>ข้อมูลช่วงวัยทั้งหมด</summary>

@@ -59,6 +59,11 @@ export function lifespanIndexToHuman(years, lifespan) {
   return 18 + ((progress - 0.1) / 0.9) * 62;
 }
 
+export function humanLifeProgress(humanYears) {
+  if (!Number.isFinite(humanYears) || humanYears <= 0) return 0;
+  return Math.min(100, (humanYears / 80) * 100);
+}
+
 export function calendarAge(birthDate, now = new Date()) {
   const birth = birthDate instanceof Date ? birthDate : new Date(`${birthDate}T00:00:00`);
   if (Number.isNaN(birth.getTime()) || birth > now) return null;

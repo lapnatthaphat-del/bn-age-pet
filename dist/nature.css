@@ -125,12 +125,12 @@ body {
 .saved-pet-human strong { color: #267354; font-size: 1.8rem; }
 .saved-pet-human span { color: var(--muted); font-size: .78rem; }
 .saved-pet-stage-info { margin-top: 16px; padding: 15px; border-radius: 16px; background: #f2f6ed; }
-.stage-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; }
-.stage-steps span { min-width: 0; color: #879188; text-align: center; }
-.stage-steps i { display: block; height: 5px; margin-bottom: 5px; border-radius: 999px; background: #d5ddd2; }
-.stage-steps small { display: block; font-size: .59rem; line-height: 1.25; }
-.stage-steps .is-current { color: #267354; font-weight: 800; }
-.stage-steps .is-current i { background: #267354; box-shadow: 0 0 0 3px rgba(38, 115, 84, .1); }
+.life-progress { position: relative; height: 13px; overflow: hidden; border: 2px solid #b9c8b6; border-radius: 999px; background: #fff; box-shadow: inset 0 1px 3px rgba(32, 51, 41, .11); }
+.life-progress-fill { position: relative; width: var(--life-progress); height: 100%; display: block; border-radius: inherit; background: linear-gradient(90deg, #63aa68 0%, #267354 100%); box-shadow: 0 0 10px rgba(38, 115, 84, .22); transition: width .45s ease; }
+.life-progress-fill::after { content: ""; position: absolute; inset: 1px 5px auto; height: 2px; border-radius: 999px; background: rgba(255, 255, 255, .42); }
+.stage-labels { display: flex; justify-content: space-between; gap: 4px; margin-top: 6px; color: #879188; }
+.stage-labels span { font-size: .58rem; line-height: 1.2; text-align: center; }
+.stage-labels .is-current { color: #267354; font-weight: 800; }
 .saved-pet-stage-info > p { margin: 13px 0 0; color: var(--muted); font-size: .75rem; line-height: 1.55; }
 .saved-pet-stage-info > p strong { display: block; margin-bottom: 2px; color: var(--ink); font-size: .8rem; }
 .saved-pet-stage-info details { margin-top: 10px; border-top: 1px solid var(--line); padding-top: 9px; }

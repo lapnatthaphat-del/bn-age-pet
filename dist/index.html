@@ -3,110 +3,42 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="คำนวณอายุสัตว์เลี้ยงเทียบกับอายุคนแบบเรียลไทม์ บันทึกรูปและการ์ดของน้องไว้ในอุปกรณ์">
+  <meta name="description" content="ดูการ์ด อายุจริง และอายุเทียบคนของสัตว์เลี้ยงที่บันทึกไว้ใน PetAge">
   <meta name="theme-color" content="#267354">
-  <title>PetAge — เทียบวัยน้องกับเรา</title>
+  <title>สัตว์เลี้ยงของฉัน — PetAge</title>
   <link rel="icon" type="image/png" href="assets/petage-logo.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="stylesheet" href="nature.css">
-  <style>.empty-result[hidden]{display:none}</style>
+  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="nature.css?v=4">
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="#top" aria-label="PetAge หน้าแรก"><img class="brand-logo" src="assets/petage-logo.png" alt=""><span>PetAge</span></a>
-    <nav aria-label="เมนูหลัก"><a href="#how">วิธีคำนวณ</a><a href="#sources">แหล่งข้อมูล</a></nav>
+    <a class="brand" href="index.html" aria-label="PetAge หน้าแรก"><img class="brand-logo" src="assets/petage-logo.png" alt=""><span>PetAge</span></a>
+    <nav aria-label="เมนูหลัก"><a href="index.html" aria-current="page">สัตว์เลี้ยง</a><a href="add.html">เพิ่มสัตว์</a><a href="how.html">วิธีคำนวณ</a><a href="sources.html">แหล่งอ้างอิง</a></nav>
   </header>
-  <main id="top">
-    <section class="hero">
-      <div class="intro">
-        <p class="eyebrow">เทียบวัยน้องกับเรา</p>
-        <h1>น้องอายุเท่าไร<br><span>เมื่อเทียบกับคน?</span></h1>
-        <p class="lead">ใส่วันเกิดของสัตว์เลี้ยง แล้วดูอายุจริงและอายุเทียบเท่าแบบอัปเดตตามเวลา</p>
-        <div class="pet-doodles" aria-hidden="true"><span class="doodle dog-face">◖ᴥ◗</span><span class="doodle cat-face">≽^•⩊•^≼</span></div>
-      </div>
-      <div class="workspace">
-        <form class="card form-card" id="pet-form" novalidate>
-          <div class="card-heading"><span class="step">01</span><div><h2>ข้อมูลของน้อง</h2><p>กรอกเพียงนิดเดียว ผลลัพธ์ก็พร้อมแล้ว</p></div></div>
-          <fieldset>
-            <legend>สัตว์เลี้ยงของคุณคือ</legend>
-            <div class="species-grid species-grid-expanded">
-              <label class="species-option"><input type="radio" name="species" value="dog"><span class="species-content"><span class="species-icon" aria-hidden="true">🐶</span><strong>สุนัข</strong><small>เพื่อนซี้สี่ขา</small></span></label>
-              <label class="species-option"><input type="radio" name="species" value="cat"><span class="species-content"><span class="species-icon" aria-hidden="true">🐱</span><strong>แมว</strong><small>เจ้านายตัวน้อย</small></span></label>
-              <label class="species-option"><input type="radio" name="species" value="small"><span class="species-content"><span class="species-icon" aria-hidden="true">🐰</span><strong>สัตว์เล็ก</strong><small>กระต่ายและเพื่อน</small></span></label>
-              <label class="species-option"><input type="radio" name="species" value="bird"><span class="species-content"><span class="species-icon" aria-hidden="true">🦜</span><strong>นก</strong><small>เพื่อนมีปีก</small></span></label>
-              <label class="species-option"><input type="radio" name="species" value="exotic"><span class="species-content"><span class="species-icon" aria-hidden="true">🦎</span><strong>Exotic</strong><small>สัตว์พิเศษ</small></span></label>
-            </div>
-          </fieldset>
-          <div class="field"><label for="pet-name">ชื่อน้อง <span>(ไม่บังคับ)</span></label><input id="pet-name" name="petName" type="text" maxlength="30" placeholder="เช่น โมจิ" autocomplete="off"></div>
-          <div class="field photo-field">
-            <label for="pet-photo">รูปของน้อง <span>(ไม่บังคับ)</span></label>
-            <div class="photo-picker">
-              <div class="photo-preview" id="photo-preview" aria-live="polite">
-                <img id="photo-preview-image" alt="รูปตัวอย่างของสัตว์เลี้ยง" hidden>
-                <span id="photo-placeholder" aria-hidden="true">📷</span>
-              </div>
-              <div class="photo-controls">
-                <label class="photo-upload-button" for="pet-photo">เลือกรูปจากเครื่อง</label>
-                <input class="visually-hidden" id="pet-photo" name="petPhoto" type="file" accept="image/jpeg,image/png,image/webp">
-                <button class="remove-photo-button" id="remove-photo-button" type="button" hidden>ลบรูป</button>
-                <small>รองรับ JPG, PNG และ WebP ไม่เกิน 10 MB ระบบจะย่อรูปให้อัตโนมัติ</small>
-                <p class="error" id="photo-error" role="alert"></p>
-              </div>
-            </div>
-          </div>
-          <div class="field"><label for="birth-date">วันเกิดของน้อง</label><input id="birth-date" name="birthDate" type="date" aria-describedby="birth-help birth-error"><small id="birth-help">ใช้วันที่โดยประมาณได้ หากจำวันเกิดที่แน่นอนไม่ได้</small><p class="error" id="birth-error" role="alert"></p></div>
-          <div class="field dog-size-field" id="dog-size-field" hidden><label for="dog-size">ขนาดเมื่อโตเต็มวัย</label><select id="dog-size" name="dogSize"><option value="small">เล็ก — ไม่เกิน 9 กก.</option><option value="medium" selected>กลาง — 10–23 กก.</option><option value="large">ใหญ่ — 24–41 กก.</option><option value="giant">ใหญ่มาก — มากกว่า 41 กก.</option></select><small>ขนาดมีผลต่ออัตราการสูงวัย โดยเฉพาะเมื่ออายุมากขึ้น</small></div>
-          <div class="field profile-field" id="profile-field" hidden><label for="pet-profile">ชนิดของสัตว์เลี้ยง</label><select id="pet-profile" name="petProfile"></select><small id="lifespan-hint"></small></div>
-          <button class="save-pet-button" type="button" id="save-pet-button" disabled>+ เพิ่มน้องเป็นการ์ด</button>
-          <button class="reset-button" type="button" id="reset-button">เริ่มคำนวณใหม่</button>
-          <p class="save-status" id="save-status" aria-live="polite"></p>
-          <p class="privacy"><span aria-hidden="true">⌁</span> ข้อมูลอยู่ในอุปกรณ์นี้เท่านั้น</p>
-        </form>
-        <section class="card result-card is-empty" id="result-card" aria-live="polite" aria-atomic="true">
-          <div class="empty-result" id="empty-result"><span class="empty-icon" aria-hidden="true">♡</span><h2>ผลลัพธ์จะแสดงตรงนี้</h2><p>เลือกชนิดสัตว์และวันเกิด<br>เพื่อเริ่มคำนวณ</p></div>
-          <div class="result-content" id="result-content" hidden>
-            <div class="result-topline"><span class="live-dot"></span><span>อัปเดตแบบเรียลไทม์</span><span class="stage-badge" id="stage-badge"></span></div>
-            <p class="result-kicker" id="result-kicker">วันนี้น้องอายุเทียบเท่าคนประมาณ</p>
-            <div class="human-age"><strong id="human-years">0</strong><span>ปี</span></div>
-            <div class="actual-age"><span>อายุจริง</span><strong id="actual-age"></strong></div>
-            <div class="timeline" aria-label="ช่วงวัยของสัตว์เลี้ยง"><div class="timeline-track"><span id="timeline-progress"></span></div><div class="timeline-labels"><span>วัยเด็ก</span><span>หนุ่มสาว</span><span>ผู้ใหญ่</span><span>สูงอายุ</span></div></div>
-            <p class="updated-at">คำนวณล่าสุด <time id="updated-at"></time></p>
-            <p class="result-note" id="result-note">ค่าที่แสดงเป็นการเทียบโดยประมาณ ไม่ใช่การประเมินสุขภาพหรืออายุขัยเฉพาะตัว</p>
-          </div>
-        </section>
-      </div>
+  <main id="top" class="page-main">
+    <section class="page-hero dashboard-hero">
+      <div><p class="eyebrow">ครอบครัวของเรา</p><h1>สัตว์เลี้ยงของฉัน</h1><p class="lead">ดูอายุของน้องทุกตัวได้ในที่เดียว ข้อมูลและรูปทั้งหมดอยู่ในอุปกรณ์นี้เท่านั้น</p></div>
+      <a class="primary-link" href="add.html"><span aria-hidden="true">＋</span> เพิ่มสัตว์เลี้ยง</a>
     </section>
-    <section class="my-pets" id="my-pets" hidden>
+    <section class="pets-dashboard" aria-labelledby="pets-title">
       <div class="pets-heading">
-        <div><p class="eyebrow">ครอบครัวของเรา</p><h2>สัตว์เลี้ยงของฉัน</h2></div>
-        <p><strong id="pet-count">0</strong> ตัวที่บันทึกไว้ในอุปกรณ์นี้</p>
+        <div><p class="eyebrow">อัปเดตตามวันนี้</p><h2 id="pets-title">การ์ดของน้อง</h2></div>
+        <p><strong id="pet-count">0</strong> ตัวที่บันทึกไว้</p>
       </div>
       <div class="pet-card-grid" id="pet-card-grid"></div>
-    </section>
-    <section class="explain" id="how">
-      <div class="section-title"><p class="eyebrow">เข้าใจผลลัพธ์</p><h2>ไม่ใช่แค่เอาอายุไปคูณ 7</h2><p>สัตว์เลี้ยงเติบโตเร็วมากในช่วงปีแรก แล้วอัตราการสูงวัยจะเปลี่ยนไปตามชนิดและขนาด</p></div>
-      <div class="insight-grid">
-        <article><span class="article-no">01</span><div class="article-icon dog">🐕</div><h3>สุนัขต่างกันตามขนาด</h3><p>สองปีแรกพัฒนาเร็วใกล้เคียงกัน หลังจากนั้นสุนัขตัวใหญ่มักเข้าสู่วัยสูงอายุเร็วกว่าสุนัขตัวเล็ก</p></article>
-        <article><span class="article-no">02</span><div class="article-icon cat">🐈</div><h3>แมวโตเร็วในช่วงแรก</h3><p>แมวอายุ 1 ปีเทียบได้ราว 15 ปีคน และเมื่อ 2 ปีจะอยู่ที่ประมาณ 24 ปีคน จากนั้นเพิ่มราว 4 ปีคนต่อปี</p></article>
-        <article><span class="article-no">03</span><div class="article-icon heart">🌿</div><h3>สัตว์เล็ก นก และ Exotic</h3><p>ใช้สัดส่วนช่วงชีวิตจากอายุขัยทั่วไปของแต่ละชนิด เพื่อให้เห็นภาพง่ายขึ้น ไม่ใช่สูตรอายุชีวภาพ</p></article>
+      <div class="empty-pets" id="empty-pets" hidden>
+        <img src="assets/petage-logo.png" alt="" width="96" height="96">
+        <h2>ยังไม่มีการ์ดสัตว์เลี้ยง</h2>
+        <p>เพิ่มชื่อ วันเกิด และรูปของน้อง เพื่อเริ่มดูอายุแบบเรียลไทม์</p>
+        <a class="primary-link" href="add.html">เพิ่มสัตว์เลี้ยงตัวแรก</a>
       </div>
-    </section>
-    <section class="sources" id="sources">
-      <div><p class="eyebrow">อ้างอิงอย่างรับผิดชอบ</p><h2>ที่มาของวิธีคำนวณ</h2></div>
-      <div class="source-list">
-        <details open><summary>แมว: ตารางอายุ FelineVMA <span>+</span></summary><p>ใช้จุดอ้างอิงอายุแมวเทียบอายุคน และคำนวณค่าระหว่างจุดแบบต่อเนื่อง <a href="https://catfriendly.com/wp-content/uploads/2025/09/FelineVMA_CatAgeToHumanAge.pdf" target="_blank" rel="noreferrer">ดูข้อมูล Feline Veterinary Medical Association</a></p></details>
-        <details><summary>สุนัข: ช่วงวัยและขนาด <span>+</span></summary><p>ใช้แนวคิด 1 ปีแรกประมาณ 15 ปีคน, 2 ปีประมาณ 24 ปีคน และปรับอัตราหลังจากนั้นตามขนาด <a href="https://healthtopics.vetmed.ucdavis.edu/health-topics/canine/calculating-your-dogs-age" target="_blank" rel="noreferrer">ดูข้อมูล UC Davis School of Veterinary Medicine</a></p></details>
-        <details><summary>ทำไมผลจึงเป็นเพียงค่าประมาณ <span>+</span></summary><p>AAHA แนะนำให้มองช่วงวัยควบคู่กับอายุขัยที่คาดตามสายพันธุ์และขนาด มากกว่ายึดตัวคูณเดียว <a href="https://www.aaha.org/resources/life-stage-canine-2019/canine-life-stage-definitions/" target="_blank" rel="noreferrer">อ่านนิยามช่วงวัยจาก AAHA</a></p></details>
-        <details><summary>สัตว์เล็กและ Exotic <span>+</span></summary><p>ใช้ช่วงอายุขัยทั่วไปของสัตว์เลี้ยงแต่ละชนิดจากคู่มือสัตวแพทย์ แล้วแปลงเป็นดัชนีช่วงชีวิตเพื่อการเปรียบเทียบ <a href="https://www.msdvetmanual.com/multimedia/table/biological-data-of-pet-rodents" target="_blank" rel="noreferrer">ดูข้อมูลสัตว์เล็กจาก MSD Veterinary Manual</a><a href="https://www.msdvetmanual.com/multimedia/table/average-life-span-of-reptiles-in-captivity" target="_blank" rel="noreferrer">ดูข้อมูลสัตว์เลื้อยคลานจาก MSD</a></p></details>
-        <details><summary>นกเลี้ยง <span>+</span></summary><p>นกแต่ละชนิดมีอายุขัยต่างกันมาก ตั้งแต่นกหงส์หยกไปจนถึงนกแก้วขนาดใหญ่ จึงต้องเลือกชนิดให้ตรง <a href="https://www.msdvetmanual.com/multimedia/table/popular-pet-birds" target="_blank" rel="noreferrer">ดูตารางนกเลี้ยงจาก MSD Veterinary Manual</a></p></details>
-      </div>
-      <p class="review-date">ตรวจสอบข้อมูลล่าสุดเมื่อ 11 ตุลาคม 2026</p>
     </section>
   </main>
-  <footer><a class="brand" href="#top"><img class="brand-logo" src="assets/petage-logo.png" alt=""> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
-  <script type="module" src="app.mjs"></script>
+  <footer><a class="brand" href="index.html"><img class="brand-logo" src="assets/petage-logo.png" alt=""> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
+  <script>if(location.hash==="#how")location.replace("how.html");if(location.hash==="#sources")location.replace("sources.html");</script>
+  <script type="module" src="pets.mjs?v=4"></script>
 </body>
 </html>

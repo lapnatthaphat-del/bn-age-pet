@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="ทำความเข้าใจวิธีที่ PetAge เปรียบเทียบอายุสัตว์เลี้ยงกับช่วงวัยของคน">
+  <meta name="theme-color" content="#267354">
+  <title>วิธีคำนวณ — PetAge</title>
+  <link rel="icon" type="image/png" href="assets/petage-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=4">
+  <link rel="stylesheet" href="nature.css?v=4">
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="PetAge หน้าแรก"><img class="brand-logo" src="assets/petage-logo.png" alt=""><span>PetAge</span></a>
+    <nav aria-label="เมนูหลัก"><a href="index.html">สัตว์เลี้ยง</a><a href="add.html">เพิ่มสัตว์</a><a href="how.html" aria-current="page">วิธีคำนวณ</a><a href="sources.html">แหล่งอ้างอิง</a></nav>
+  </header>
+  <main id="top" class="page-main">
+    <section class="page-hero content-hero"><div><p class="eyebrow">เข้าใจผลลัพธ์</p><h1>เราเทียบอายุกันอย่างไร?</h1><p class="lead">สัตว์เลี้ยงไม่ได้สูงวัยด้วยอัตราคงที่ สูตรจึงต้องดูทั้งชนิด ขนาด และช่วงชีวิต</p></div></section>
+    <section class="explain method-section">
+      <div class="section-title"><p class="eyebrow">หลักการสำคัญ</p><h2>ไม่ใช่แค่เอาอายุไปคูณ 7</h2><p>สัตว์เลี้ยงเติบโตเร็วมากในช่วงปีแรก แล้วอัตราการสูงวัยจะเปลี่ยนไปตามชนิดและขนาด</p></div>
+      <div class="insight-grid">
+        <article><span class="article-no">01</span><div class="article-icon dog">🐕</div><h3>สุนัขต่างกันตามขนาด</h3><p>สองปีแรกพัฒนาเร็วใกล้เคียงกัน หลังจากนั้นสุนัขตัวใหญ่มักเข้าสู่วัยสูงอายุเร็วกว่าสุนัขตัวเล็ก</p></article>
+        <article><span class="article-no">02</span><div class="article-icon cat">🐈</div><h3>แมวโตเร็วในช่วงแรก</h3><p>แมวอายุ 1 ปีเทียบได้ราว 15 ปีคน และเมื่อ 2 ปีจะอยู่ที่ประมาณ 24 ปีคน จากนั้นเพิ่มราว 4 ปีคนต่อปี</p></article>
+        <article><span class="article-no">03</span><div class="article-icon heart">🌿</div><h3>สัตว์เล็ก นก และ Exotic</h3><p>ใช้สัดส่วนช่วงชีวิตจากอายุขัยทั่วไปของแต่ละชนิด เพื่อให้เห็นภาพง่ายขึ้น ไม่ใช่สูตรอายุชีวภาพ</p></article>
+      </div>
+      <div class="method-flow" aria-label="ขั้นตอนการคำนวณ">
+        <article><span>1</span><div><h3>คำนวณอายุจริง</h3><p>นับปี เดือน และวันจากวันเกิดจนถึงวันนี้</p></div></article>
+        <article><span>2</span><div><h3>เลือกเส้นอ้างอิง</h3><p>ใช้ชนิดสัตว์ ขนาด หรืออายุขัยทั่วไปที่ตรงกับน้อง</p></div></article>
+        <article><span>3</span><div><h3>แสดงช่วงวัย</h3><p>แปลงเป็นค่าประมาณเพื่อให้เข้าใจว่าน้องอยู่ในวัยเด็ก หนุ่มสาว ผู้ใหญ่ หรือสูงอายุ</p></div></article>
+      </div>
+      <aside class="method-note"><strong>ข้อควรรู้</strong><p>ผลลัพธ์เป็นเครื่องมือช่วยทำความเข้าใจ ไม่ใช่การประเมินสุขภาพหรือการทำนายอายุขัยเฉพาะตัว</p><a class="primary-link" href="add.html">ลองคำนวณให้น้อง</a></aside>
+    </section>
+  </main>
+  <footer><a class="brand" href="index.html"><img class="brand-logo" src="assets/petage-logo.png" alt=""> PetAge</a><p>ผลลัพธ์เพื่อความเข้าใจและความสนุก หากกังวลเรื่องสุขภาพ ควรปรึกษาสัตวแพทย์</p><span>ทำด้วยความรักเพื่อน้อง ๆ</span></footer>
+</body>
+</html>

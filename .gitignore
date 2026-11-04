@@ -1,0 +1,21 @@
+# Dependencies and build output
+node_modules/
+.next/
+.cache/
+
+# Secrets
+.env
+.env.local
+.env.*
+!.env.example
+
+# OS files and logs
+.DS_Store
+*.log
+
+# Local tool state
+.vercel/
+.wrangler/
+
+# Old snapshots, backups, and retired experiments
+_archive/
